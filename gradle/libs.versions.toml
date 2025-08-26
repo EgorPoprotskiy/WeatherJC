@@ -13,7 +13,24 @@ kotlinx-serialization = "1.9.0"
 #Retrofit
 retrofit = "3.0.0"
 retrofit-serialization = "1.0.0"
-
+okhttp = "5.1.0" # Для сетевых запросов
+okhttp-logging = "5.1.0" # Для логгирования сетевых запросов
+retrofit-gson = "2.9.0" # Версия Gson конвертера для Retrofit
+# Для корутин
+kotlinx-coroutines = "1.10.2"
+# Для ViewModel
+androidx-lifecycle = "2.9.2"
+# Для навигации
+navigation-compose = "2.9.3"
+# Для базы данных
+room = "2.7.2"
+ksp = "2.1.21-2.0.1" # Версия KSP, совместимая с Kotlin 2.2.10
+#Для свайпа
+composeMaterial = "1.9.0"
+# Для загрузки изображений
+coil = "2.7.0"
+#Устаревшая технология, сейчас используется Kotlin Coroutines и StateFlow.
+runtime-livedata = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,17 +47,54 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
 #Kotlinx Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 #Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit_serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+#retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-gson" } # Новый Gson конвертер
+#для отладки сетевых запросов
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-logging" }
+
+# Для корутин
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
+# Для ViewModel и навигации
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+#Навигация
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+
+# Для базы данных Room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# Для загрузки изображений
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+#Для свайпа.
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
+
+[bundles]
+# ... твои существующие бандлы (если есть)
+network-deps = ["retrofit", "retrofit-gson", "okhttp-logging-interceptor"] # Обновили бандл
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 #Kotlinx Serialization
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version = "2.2.10" }
 
-
+# Для базы данных Room
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
