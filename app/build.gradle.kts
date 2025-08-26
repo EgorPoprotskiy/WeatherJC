@@ -7,6 +7,10 @@ plugins {
 //    kotlin("plugin.serialization") version "2.1.20" - старый синтаксис
     //Room
     alias(libs.plugins.ksp)
+    // Добавляем плагин Hilt
+    alias(libs.plugins.hilt.android)
+    id("org.jetbrains.kotlin.kapt")
+//    id("com.google.dagger.hilt.android") // Плагин Hilt
 }
 
 
@@ -91,9 +95,14 @@ dependencies {
     // Coil (загрузка изображений)
     implementation(libs.coil.compose)
 
+
     implementation(libs.androidx.compose.runtime.livedata)
     // Или если ты добавляешь по одной:
 //    implementation(libs.retrofit.core)
     // Если ты используешь бандл:
     implementation(libs.bundles.network.deps)
+
+    //Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }

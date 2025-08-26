@@ -31,6 +31,8 @@ composeMaterial = "1.9.0"
 coil = "2.7.0"
 #Устаревшая технология, сейчас используется Kotlin Coroutines и StateFlow.
 runtime-livedata = "1.9.0"
+#Hilt — это фреймворк для внедрения зависимостей
+hilt-android = "2.57.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -84,6 +86,11 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 #Для свайпа.
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
 
+#Hilt — это фреймворк для внедрения зависимостей
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-android" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt-android" }
+
+
 [bundles]
 # ... твои существующие бандлы (если есть)
 network-deps = ["retrofit", "retrofit-gson", "okhttp-logging-interceptor"] # Обновили бандл
@@ -98,3 +105,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Для базы данных Room
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+#Hilt
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
