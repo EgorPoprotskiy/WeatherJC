@@ -1,8 +1,9 @@
 package com.egorpoprotskiy.weatherjc.data
 
-import android.media.Image
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+//2
 
 //DTO расшифровывается как Data Transfer Object — объект для передачи данных.
 @Serializable
