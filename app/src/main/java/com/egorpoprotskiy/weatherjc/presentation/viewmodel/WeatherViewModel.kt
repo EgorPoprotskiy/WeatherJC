@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 //9
 
-@HiltViewModel
+//@HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ): ViewModel() {

@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.ksp)
     // Добавляем плагин Hilt
     alias(libs.plugins.hilt.android)
-    id("org.jetbrains.kotlin.kapt")
+//    id("org.jetbrains.kotlin.kapt")
 //    id("com.google.dagger.hilt.android") // Плагин Hilt
 }
 
@@ -104,5 +104,5 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 }
