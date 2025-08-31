@@ -8,8 +8,8 @@ plugins {
     //Room
     alias(libs.plugins.ksp)
     // Добавляем плагин Hilt
-    alias(libs.plugins.hilt.android)
-//    id("org.jetbrains.kotlin.kapt")
+//    alias(libs.plugins.hilt.android) //используется KSP вместо KAPT
+//    id("org.jetbrains.kotlin.kapt") //Устаревшая технология
 //    id("com.google.dagger.hilt.android") // Плагин Hilt
 }
 
@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.compose.runtime.livedata)
     // Тесты
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -79,13 +80,16 @@ dependencies {
     // Корутины
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-
     // Retrofit и Serialisation
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.serialization)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.okhttp.logging.interceptor)
+//    Все зависимости закомментированы, потому что Мы используем libs.bundles.network.deps
+//    implementation(libs.retrofit)
+//    implementation(libs.retrofit.serialization)
+//    implementation(libs.retrofit.gson)
+//    implementation(libs.kotlinx.serialization.json)
+//    implementation(libs.okhttp.logging.interceptor)
     implementation(platform(libs.okhttp.bom)) // Важно для BOM
+    // Если ты используешь бандл:
+    implementation(libs.bundles.network.deps)
 
     // Room (база данных)
     implementation(libs.androidx.room.runtime)
@@ -96,13 +100,8 @@ dependencies {
     implementation(libs.coil.compose)
 
 
-    implementation(libs.androidx.compose.runtime.livedata)
-    // Или если ты добавляешь по одной:
-//    implementation(libs.retrofit.core)
-    // Если ты используешь бандл:
-    implementation(libs.bundles.network.deps)
 
     //Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+//    implementation(libs.hilt.android)
+//    ksp(libs.hilt.compiler)
 }
