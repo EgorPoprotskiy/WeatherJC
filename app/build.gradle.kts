@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -13,6 +15,9 @@ plugins {
 //    id("com.google.dagger.hilt.android") // Плагин Hilt
 }
 
+val properties = Properties().apply {
+    file(rootProject.rootDir.absolutePath + "/local.properties").inputStream().use { load(it) }
+}
 
 android {
     namespace = "com.egorpoprotskiy.weatherjc"
@@ -26,6 +31,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Добавляем поле для API-ключа, которое будет сгенерировано в BuildConfig.
+        buildConfigField("String", "OPEN_WEATHER_MAP_API_KEY", properties.getProperty("OPEN_WEATHER_MAP_API_KEY"))
     }
 
     buildTypes {
@@ -45,6 +53,8 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        // Включаем генерацию BuildConfig
+        buildConfig = true
         compose = true
     }
 }
