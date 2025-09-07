@@ -1,8 +1,6 @@
 package com.egorpoprotskiy.weatherjc.presentation.viewmodel
 
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import com.egorpoprotskiy.weatherjc.BuildConfig
 import com.egorpoprotskiy.weatherjc.data.WeatherDto
