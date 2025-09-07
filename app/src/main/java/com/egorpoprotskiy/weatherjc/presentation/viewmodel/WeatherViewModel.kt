@@ -1,9 +1,14 @@
 package com.egorpoprotskiy.weatherjc.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.egorpoprotskiy.weatherjc.BuildConfig
+import com.egorpoprotskiy.weatherjc.WeatherApplication
 import com.egorpoprotskiy.weatherjc.data.WeatherDto
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import com.egorpoprotskiy.weatherjc.data.repository.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,11 +27,11 @@ sealed interface WeatherState {
     data class Success(val weather: WeatherDto) : WeatherState
     data class Error(val message: String) : WeatherState
 }
-class WeatherViewModel(
+open class WeatherViewModel(
     private val weatherRepository: WeatherRepository
 ): ViewModel() {
     private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Loading)
-    val weatherState: StateFlow<WeatherState> = _weatherState
+    open val weatherState: StateFlow<WeatherState> = _weatherState
 
     init {
         // Загрузка данных при инициализации ViewModel.

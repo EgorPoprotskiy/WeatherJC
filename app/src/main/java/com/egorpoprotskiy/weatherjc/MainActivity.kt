@@ -14,7 +14,8 @@ import com.egorpoprotskiy.weatherjc.ui.theme.WeatherJCTheme
 //12
 class MainActivity : ComponentActivity() {
 
-    // Ленивая инициализация ViewModel
+/** Данный код использовался, в случае, когда главным экраном был WeatheApp
+ * // Ленивая инициализация ViewModel
     // Мы используем viewModels и фабрику, чтобы получить наш ViewModel.
     private val viewModel: WeatherViewModel by viewModels {
         // Получаем экземпляр нашего приложения.
@@ -22,6 +23,8 @@ class MainActivity : ComponentActivity() {
         // Возвращаем фабрику, передав ей репозиторий из нашего контейнера.
         ViewModelFactory(application.appContainer.weatherRepository)
     }
+*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,10 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Передаем наш ViewModel в главный экран.
-                    WeatherApp(
-                        viewModel = viewModel
-                    )
+                    WeatherApp()
                 }
             }
         }
