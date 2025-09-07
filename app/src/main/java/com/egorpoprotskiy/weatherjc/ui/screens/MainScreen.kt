@@ -13,6 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,57 +50,72 @@ fun MainScreen(
     var city by remember { mutableStateOf("") }
     // Собираем состояние из ViewModel. Compose будет перерисовывать UI при каждом изменении.
     val weatherState by viewModel.weatherState.collectAsState()
-    Column(
+    Scaffold(
         modifier = modifier.fillMaxSize()
-    ) {
-        //Реализация поиска города
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
-            OutlinedTextField(
-                value = city,
-                onValueChange = { city = it },
-                label = { Text("Название города") },
-                modifier = Modifier.weight(1f)
-            )
-            Button(
-                onClick = {
-                    if (city.isNotBlank()) {
-                        viewModel.getWeather(city)
-                    }
-                },
-                shape = RoundedCornerShape(12.dp)
+            //Реализация поиска города
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Icon(imageVector = Icons.Default.Search,
-                    contentDescription = "Поиск"
+                OutlinedTextField(
+                    value = city,
+                    onValueChange = { city = it },
+                    label = { Text("Название города") },
+                    modifier = Modifier.weight(1f),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        // Цвет текста будет меняться в зависимости от темы.
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        // Цвет метки (label) тоже будет меняться.
+                        focusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 )
+                Button(
+                    onClick = {
+                        if (city.isNotBlank()) {
+                            viewModel.getWeather(city)
+                        }
+                    },
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Поиск"
+                    )
+                }
             }
-        }
-        // Используем `when` для отображения разных UI в зависимости от состояния.
-        when (weatherState) {
-            is WeatherState.Loading -> {
-                // Показываем индикатор загрузки
-                LoadingScreen(modifier = modifier)
-            }
+            // Используем `when` для отображения разных UI в зависимости от состояния.
+            when (weatherState) {
+                is WeatherState.Loading -> {
+                    // Показываем индикатор загрузки
+                    LoadingScreen(modifier = modifier)
+                }
 
-            is WeatherState.Success -> {
-                // Показываем данные о погоде
-                WeatherInfoScreen(
-                    modifier = modifier,
-                    weather = (weatherState as WeatherState.Success).weather
-                )
-            }
+                is WeatherState.Success -> {
+                    // Показываем данные о погоде
+                    WeatherInfoScreen(
+                        modifier = modifier,
+                        weather = (weatherState as WeatherState.Success).weather
+                    )
+                }
 
-            is WeatherState.Error -> {
-                // Показываем сообщение об ошибке
-                ErrorScreen(
-                    modifier = modifier,
-                    message = (weatherState as WeatherState.Error).message
-                )
+                is WeatherState.Error -> {
+                    // Показываем сообщение об ошибке
+                    ErrorScreen(
+                        modifier = modifier,
+                        message = (weatherState as WeatherState.Error).message
+                    )
+                }
             }
         }
     }
