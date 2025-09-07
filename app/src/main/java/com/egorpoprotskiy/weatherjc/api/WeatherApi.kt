@@ -1,5 +1,6 @@
 package com.egorpoprotskiy.weatherjc.api
 
+import com.egorpoprotskiy.weatherjc.data.ForecastDto
 import com.egorpoprotskiy.weatherjc.data.WeatherDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -24,4 +25,12 @@ interface WeatherApi {
         @Query("appid") appid: String,
         @Query("units") units: String = "metric"
     ): WeatherDto
+
+    //Добавление эндпоинта для прогноза на 5 дней.
+    @GET(value = "data/2.5/forecast")
+    suspend fun getForecast(
+        @Query("q") q: String,
+        @Query("appid") appid: String,
+        @Query("units") units: String = "metric"
+    ): ForecastDto
 }
