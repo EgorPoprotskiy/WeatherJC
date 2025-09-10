@@ -21,7 +21,7 @@ fun WeatherApp() {
         val application = LocalContext.current.applicationContext as WeatherApplication
         // Используем нашу фабрику для создания ViewModel.
         val weatherViewModel: WeatherViewModel = viewModel(
-            factory = ViewModelFactory(application.appContainer.weatherRepository)
+            factory = ViewModelFactory(application.appContainer)
         )
         // Передаем созданный ViewModel в MainScreen.
         MainScreen(

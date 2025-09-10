@@ -28,7 +28,7 @@ interface WeatherApi {
 
     //Добавление эндпоинта для прогноза на 5 дней.
     @GET(value = "data/2.5/forecast")
-    suspend fun getForecast(
+    suspend fun getWeatherForecast(
         @Query("q") q: String,
         @Query("appid") appid: String,
         @Query("units") units: String = "metric"

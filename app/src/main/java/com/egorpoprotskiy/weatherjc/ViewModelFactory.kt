@@ -9,7 +9,7 @@ import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherViewModel
 
 // Эта фабрика создает экземпляр WeatherViewModel и передает ему репозиторий.
 // Это и есть ручное внедрение зависимостей.
-class ViewModelFactory(private val weatherRepository: WeatherRepository): ViewModelProvider.Factory {
+class ViewModelFactory(private val appContainer: AppContainer): ViewModelProvider.Factory {
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
         // Мы проверяем, что создается именно наш ViewModel.
         if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
@@ -17,7 +17,7 @@ class ViewModelFactory(private val weatherRepository: WeatherRepository): ViewMo
             // @Suppress("UNCHECKED_CAST") — это нужно, чтобы убрать предупреждение
             // о небезопасном приведении типов.
             @Suppress("UNCHECKED_CASR")
-            return WeatherViewModel(weatherRepository = weatherRepository) as T
+            return WeatherViewModel(appContainer = appContainer) as T
         }
         // Если это не наш ViewModel, мы выбрасываем исключение.
         throw IllegalArgumentException("Unknown ViewModel class")

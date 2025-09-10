@@ -41,6 +41,7 @@ import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherState
 import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
+//11,5
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,

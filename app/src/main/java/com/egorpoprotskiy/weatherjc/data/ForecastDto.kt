@@ -32,6 +32,11 @@ data class ForecastItem(
     val wind: Wind,
     val visibility: Int,
     val pop: Double,
-    val sys: Sys,
+    val sys: ForecastSys,
     val dt_txt: String
+)
+
+@Serializable
+data class ForecastSys(
+    val pod: String
 )
