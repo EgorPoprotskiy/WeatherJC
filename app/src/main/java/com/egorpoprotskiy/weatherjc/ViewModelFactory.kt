@@ -2,7 +2,6 @@ package com.egorpoprotskiy.weatherjc
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.egorpoprotskiy.weatherjc.data.repository.WeatherRepository
 import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherViewModel
 
 //9

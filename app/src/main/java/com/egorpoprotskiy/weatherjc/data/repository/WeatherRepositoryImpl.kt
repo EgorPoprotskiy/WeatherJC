@@ -1,6 +1,5 @@
 package com.egorpoprotskiy.weatherjc.data.repository
 
-import androidx.room.util.query
 import com.egorpoprotskiy.weatherjc.api.WeatherApi
 import com.egorpoprotskiy.weatherjc.data.ForecastDto
 import com.egorpoprotskiy.weatherjc.data.WeatherDto

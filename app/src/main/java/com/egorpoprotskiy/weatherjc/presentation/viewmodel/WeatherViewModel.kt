@@ -1,17 +1,10 @@
 package com.egorpoprotskiy.weatherjc.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.egorpoprotskiy.weatherjc.BuildConfig
-import com.egorpoprotskiy.weatherjc.WeatherApplication
 import com.egorpoprotskiy.weatherjc.data.WeatherDto
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import com.egorpoprotskiy.weatherjc.AppContainer
 import com.egorpoprotskiy.weatherjc.data.ForecastDto
-import com.egorpoprotskiy.weatherjc.data.repository.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -62,8 +55,6 @@ open class WeatherViewModel(
             _weatherState.value = WeatherState.Loading
             _forecastState.value = ForecastState.Loading
             try {
-//                _weatherState.value = WeatherState.Loading
-//                _forecastState.value = ForecastState.Loading
                 // 1. Попытка выполнить сетевой запрос
                 // Вызываем репозиторий для получения данных.
                 val weatherData = weatherRepository.getWeather(

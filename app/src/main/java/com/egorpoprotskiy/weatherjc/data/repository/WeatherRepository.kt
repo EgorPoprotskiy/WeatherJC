@@ -6,15 +6,11 @@ import com.egorpoprotskiy.weatherjc.data.WeatherDto
 //5
 interface WeatherRepository {
     suspend fun getWeather(
-        q: String,
-//        appid: String,
-//        units: String
+        q: String
     ): WeatherDto
 
     //13
     suspend fun getWeatherForecast(
-        city: String,
-//        appid: String,
-//        units: String
+        city: String
     ) : ForecastDto
 }

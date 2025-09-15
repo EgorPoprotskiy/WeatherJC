@@ -9,11 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -26,7 +27,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,11 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.egorpoprotskiy.weatherjc.data.City
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.egorpoprotskiy.weatherjc.data.Clouds
 import com.egorpoprotskiy.weatherjc.data.Coord
 import com.egorpoprotskiy.weatherjc.data.ForecastDto
@@ -52,8 +54,6 @@ import com.egorpoprotskiy.weatherjc.data.Wind
 import com.egorpoprotskiy.weatherjc.presentation.viewmodel.ForecastState
 import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherState
 import com.egorpoprotskiy.weatherjc.presentation.viewmodel.WeatherViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.time.Duration.Companion.milliseconds
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -121,6 +121,7 @@ fun MainScreen(
                     // Показываем индикатор загрузки
                     LoadingScreen(modifier = Modifier.fillMaxSize())
                 }
+
                 is WeatherState.Success -> {
                     // Используем Column, чтобы оба компонента делили пространство
                     Column(
@@ -129,19 +130,25 @@ fun MainScreen(
                     ) {
                         // Показываем данные о погоде
                         WeatherInfoScreen(
-                            modifier = Modifier.fillMaxWidth().weight(1f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f),
                             weather = (weatherState as WeatherState.Success).weather
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         // Отдельно обрабатываем состояние прогноза
                         when (forecastState) {
                             is ForecastState.Loading -> {
-                                LoadingScreen(modifier = Modifier.fillMaxWidth().height(200.dp))
+                                LoadingScreen(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp))
                             }
 
                             is ForecastState.Success -> {
                                 ForecastGridInfoScreen(
-                                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(200.dp),
                                     forecast = (forecastState as ForecastState.Success).forecast,
                                     contentPadding = contentPadding
                                 )
@@ -149,13 +156,16 @@ fun MainScreen(
 
                             is ForecastState.Error -> {
                                 ErrorScreen(
-                                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(200.dp),
                                     message = (forecastState as ForecastState.Error).message
                                 )
                             }
                         }
                     }
                 }
+
                 is WeatherState.Error -> {
                     // Показываем сообщение об ошибке
                     ErrorScreen(
@@ -187,6 +197,8 @@ fun WeatherInfoScreen(
     modifier: Modifier = Modifier,
     weather: WeatherDto
 ) {
+    //URL для иконки
+    val iconUrl = "https://openweathermap.org/img/wn/${weather.weather.firstOrNull()?.icon}@2x.png"
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -195,12 +207,23 @@ fun WeatherInfoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = weather.name, fontSize = 32.sp)
+        Spacer(modifier = Modifier.height(8.dp))
+        //Добавление иконки на экран.
+        AsyncImage(
+            modifier = Modifier.size(100.dp),
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(iconUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = weather.weather.firstOrNull()?.description
+        )
         Text(
             text = "${weather.main.temp.toInt()}°C",
             fontSize = 64.sp,
             modifier = Modifier.padding(top = 8.dp)
         )
         Text(text = weather.weather.firstOrNull()?.description ?: "Нет данных", fontSize = 18.sp)
+
     }
 }
 
@@ -234,21 +257,37 @@ fun ForecastCardInfoScreen(
     modifier: Modifier = Modifier,
     forecastItem: ForecastItem
 ) {
+    //URL для иконки
+    val iconUrl = "https://openweathermap.org/img/wn/${forecastItem.weather.firstOrNull()?.icon}@2x.png"
     val date = Date(forecastItem.dt.toLong() * 1000)
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     val formattedTime = formatter.format(date)
     Card(
-        modifier = modifier.height(150.dp).fillMaxWidth(0.3f),
+        modifier = modifier
+            .height(150.dp)
+            .width(120.dp),
+//            .fillMaxWidth(0.3f),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround
         ) {
             Text(text = formattedTime, fontSize = 14.sp)
+            //Добавление иконки на экран.
+            AsyncImage(
+                modifier = Modifier.size(50.dp),
+                model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(iconUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = forecastItem.weather.firstOrNull()?.description
+            )
             Text(
                 text = "${forecastItem.main.temp.toInt()}°C",
                 fontSize = 24.sp
@@ -280,33 +319,33 @@ fun ErrorScreen(modifier: Modifier = Modifier, message: String) {
 @Composable
 fun PreviewForecastCardInfoScreen() {
     val sampleWeather = ForecastItem(
-                dt = 10,
-                main = Main(
-                    temp = 25.0,
-                    feelsLike = 27.0,
-                    pressure = 1013,
-                    humidity = 60
-                ),
-                weather = listOf(
-                    Weather(
-                        id = 800,
-                        main = "Clear",
-                        description = "ясно",
-                        icon = "01d"
-                    )
-                ),
-                clouds = Clouds(all = 20),
-                wind = Wind(
-                    speed = 5.0,
-                    deg = 180
-                ),
-                visibility = 10,
-                pop = 10.5,
-                sys = ForecastSys(
-                    ""
-                ),
-                dt_txt = ""
+        dt = 10,
+        main = Main(
+            temp = 25.0,
+            feelsLike = 27.0,
+            pressure = 1013,
+            humidity = 60
+        ),
+        weather = listOf(
+            Weather(
+                id = 800,
+                main = "Clear",
+                description = "ясно",
+                icon = "01d"
             )
+        ),
+        clouds = Clouds(all = 20),
+        wind = Wind(
+            speed = 5.0,
+            deg = 180
+        ),
+        visibility = 10,
+        pop = 10.5,
+        sys = ForecastSys(
+            ""
+        ),
+        dt_txt = ""
+    )
     ForecastCardInfoScreen(
         forecastItem = sampleWeather
     )
